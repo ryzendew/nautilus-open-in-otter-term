@@ -17,14 +17,14 @@ sudo dnf install nautilus-python
 
 ### Fedora
 ```
-git clone https://github.com/matt/nautilus-open-in-otter-term.git
+git clone https://github.com/ryzendew/nautilus-open-in-otter-term.git
 cd nautilus-open-in-otter-term
 sudo ./install.sh
 ```
 
 ### Other Distro
 ```
-git clone https://github.com/matt/nautilus-open-in-otter-term.git
+git clone https://github.com/ryzendew/nautilus-open-in-otter-term.git
 cd nautilus-open-in-otter-term
 sudo ./install.sh
 ```
