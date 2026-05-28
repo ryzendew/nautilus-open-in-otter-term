@@ -12,26 +12,23 @@ except ValueError:
 
 require_version("Gtk", "4.0")
 
-TERMINAL_NAME = "app.devsuite.Ptyxis"
-
 import logging
 import os
 from gettext import gettext
 
 from gi.repository import GObject, Nautilus
 
-if os.environ.get("NAUTILUS_PTYXIS_DEBUG", "False") == "True":
+if os.environ.get("NAUTILUS_OTTER_TERM_DEBUG", "False") == "True":
     logging.basicConfig(level=logging.DEBUG)
 
 
-class PtyxisNautilus(GObject.GObject, Nautilus.MenuProvider):
+class OtterTermNautilus(GObject.GObject, Nautilus.MenuProvider):
     def __init__(self):
         super().__init__()
         self.is_select = False
         pass
 
     def get_file_items(self, files: list[Nautilus.FileInfo]):
-        """Return to menu when click on any file/folder"""
         if not self.only_one_file_info(files):
             return []
 
@@ -51,11 +48,6 @@ class PtyxisNautilus(GObject.GObject, Nautilus.MenuProvider):
         return menu
 
     def get_background_items(self, directory):
-        """Returns the menu items to display when no file/folder is selected
-        (i.e. when right-clicking the background)."""
-        # Some concurrency problem fix.
-        # when you select a directory, and right mouse, nautilus will call this
-        # once the moments you focus the menu. This code to ignore that time.
         if self.is_select:
             self.is_select = False
             return []
@@ -72,12 +64,10 @@ class PtyxisNautilus(GObject.GObject, Nautilus.MenuProvider):
         return menu
 
     def _create_nautilus_item(self, dir_path: str) -> Nautilus.MenuItem:
-        """Creates the 'Open In Ptyxis' menu item."""
-
         item = Nautilus.MenuItem(
-            name="PtyxisNautilus::open_in_ptyxis",
-            label=gettext("Open in Ptyxis"),
-            tip=gettext("Open this folder/file in Ptyxis Terminal"),
+            name="OtterTermNautilus::open_in_otter_term",
+            label=gettext("Open in Otter Term"),
+            tip=gettext("Open this folder in Otter Term"),
         )
         logging.debug(f"Created item with path {dir_path}")
 
@@ -86,26 +76,12 @@ class PtyxisNautilus(GObject.GObject, Nautilus.MenuProvider):
 
         return item
 
-    def is_native(self):
-        which = shutil.which("ptyxis-terminal") 
-        if which == "/usr/bin/ptyxis-terminal" or which == "/usr/local/bin/ptyxis-terminal":
-            return "ptyxis-terminal"
-        which = shutil.which("ptyxis") 
-        if which == "/usr/bin/ptyxis" or which == "/usr/local/bin/ptyxis":
-            return "ptyxis"
-
     def _nautilus_run(self, menu, path):
-        """'Open with Ptyxis's menu item callback."""
-        native = self.is_native()
-        logging.debug("Calling command:", native)
-        logging.debug("Opening path:", path)
-        args = None
-        if native == "ptyxis-terminal":
-            args = ["ptyxis-terminal", "--new-window", "-s", "-d", path]
-        elif native =="ptyxis":
-            args = ["ptyxis", "--new-window", "-s", "-d", path]
+        which = shutil.which("otter-term")
+        if which:
+            args = ["otter-term", "--cwd", path]
         else:
-            args = ["/usr/bin/flatpak", "run", TERMINAL_NAME, "--new-window", "-s", "-d", path]
+            return
 
         subprocess.Popen(args, cwd=path)
 
