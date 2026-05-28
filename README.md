@@ -1,11 +1,9 @@
-# OpenInPtyxis
+# Open in Otter Term
 
-UNMAINTAINED - I NO LONGER HAVE ANY NEED TO MAINTAIN THIS, HOWEVER I'LL MERGE PR'S THAT HELP OUT THE COMMUNITY
-
-<p>Simple script to open my favorite terminal <a href="https://gitlab.gnome.org/chergert/ptyxis">Ptyxis</a> from Nautilus (Gnome Files) Menu</p>
+Simple script to open [Otter Term](https://github.com/tomnagengast/otter) from Nautilus (GNOME Files) context menu.
 
 ## Dependency
-`nautilus-python`( `python-nautilus` on Debian/Ubuntu based)
+`nautilus-python` (`python3-nautilus` on Debian/Ubuntu based)
 ### Ubuntu
 ```
 sudo apt install python3-nautilus
@@ -17,21 +15,21 @@ sudo dnf install nautilus-python
 
 ## Installation
 
-### Arch Linux
-Install from AUR
+### Fedora
 ```
-yay -S nautilus-open-in-ptyxis
+git clone https://github.com/matt/nautilus-open-in-otter-term.git
+cd nautilus-open-in-otter-term
+sudo ./install.sh
 ```
+
+### Other Distro
+```
+git clone https://github.com/matt/nautilus-open-in-otter-term.git
+cd nautilus-open-in-otter-term
+sudo ./install.sh
+```
+
 Restart Nautilus
 ```
 nautilus -q
-```
-
-### Other Disto
-
-Clone this repository and use the install script.
-```
-git clone https://github.com/GustavoWidman/nautilus-open-in-ptyxis.git
-cd nautilus-open-in-ptyxis
-sudo ./install.sh
 ```
